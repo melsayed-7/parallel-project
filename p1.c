@@ -56,6 +56,11 @@ int main(int argc, char *argv[])
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &numtasks);
 
+    if(rank == 0){
+        printf("\nBegin round 1\n");
+        printf("=========================\n");
+    }
+
 
     // compute num_elements for each proces
     int num_ele = num_voters / numtasks;
@@ -110,8 +115,11 @@ int main(int argc, char *argv[])
             printf("[%d]: %d",i+1, results[i]);
             printf("\n");
         }
+
         find_max2(results, num_candidates, &first, &second, &idx1, &idx2);
-        printf("Percentage of the most preferred candidate in round 1: %f %%\n", (double)first*100/(double)num_voters);
+        for(int k=0; k<num_candidates;k++)
+            printf("Percentage of candidate %d in round 1: %f %%\n", k, (double)results[k]*100/(double)num_voters);
+
     }
 
     MPI_Bcast(&first, 1, MPI_INT, 0, MPI_COMM_WORLD);
@@ -162,11 +170,14 @@ int main(int argc, char *argv[])
         MPI_Allreduce(counter, results, num_candidates, MPI_INT, MPI_SUM, MPI_COMM_WORLD);
         if(rank == 0){
             printf("\nBegin round 2\n");
+            printf("=========================\n");
             for(int i=0; i<num_candidates; i++){
                 printf("[%d]: %d", i+1, results[i]);
                 printf("\n");
             }
             find_max2(results, num_candidates, &first, &second, &idx1, &idx2);
+            printf("Percentage of candidate %d is %f\n", idx1+1, (double)results[idx1]*100/(double)num_voters);
+            printf("Percentage of candidate %d is %f\n", idx2+1, (double)results[idx2]*100/(double)num_voters);
             printf("Candidate %d wins\n", idx1+1);
         }
     }
