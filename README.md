@@ -34,3 +34,10 @@ run the whole jupyter notebook (inside Colab, please skip the mounting of the dr
 ```
 
 
+## Contributions:
+- file generation (Khaled Osama)
+- p1 round1 (Mahmoud Gamal)
+- p1 round2 (Moustafa Elsayed)
+- p2 environment setup (Mahmoud Gamal)
+- p2 round1 (Moustafa Elsayed)
+- p2 round2 (Khaled Osama)
